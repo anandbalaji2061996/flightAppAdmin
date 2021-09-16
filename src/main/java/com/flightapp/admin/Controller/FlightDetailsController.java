@@ -16,13 +16,13 @@ import com.flightapp.admin.DAO.LoginCredentials;
 import com.flightapp.admin.Service.FlightDetailService;
 
 @RestController
-@RequestMapping("/api/v1.0/flight")
+@RequestMapping("/admin/api/v1.0/flight")
 public class FlightDetailsController {
 
 	@Autowired
 	FlightDetailService service;
 
-	@PostMapping("/admin/login")
+	@PostMapping("/login")
 	public String login(@RequestBody LoginCredentials credentials) {
 		return service.login(credentials);
 	}
