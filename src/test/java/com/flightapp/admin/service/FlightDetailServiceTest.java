@@ -150,4 +150,11 @@ public class FlightDetailServiceTest {
 		assertEquals("Success", service.deleteFlightDetails(response.getFlightNumber()));
 		assertFalse(adminInterface.findById(response.getFlightNumber()).isPresent());
 	}
+	
+	@Test
+	public void getFlightDetailsByFlightNumberTest() throws FlightNotFoundException, BadRequestException, FlightAlreadyFoundException {
+		FlightDetails response = service.registerAirlineAndInventory(details);
+		
+		assertEquals(adminInterface.findById(response.getFlightNumber()), service.getFlightDetailsByFlightNumber(response.getFlightNumber()));
+	}
 }

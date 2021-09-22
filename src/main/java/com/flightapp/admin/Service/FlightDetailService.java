@@ -67,6 +67,15 @@ public class FlightDetailService {
 		return adminInterface.findByAirline(airline);
 	}
 	
+	public FlightDetails getFlightDetailsByFlightNumber(String flightNumber) throws FlightNotFoundException {
+		FlightDetails flightDetails = adminInterface.findById(flightNumber).orElse(null);
+		if(flightDetails != null) {
+			return flightDetails;
+		}
+		
+		throw new FlightNotFoundException("Flight details not found!");
+	}
+	
 	public String deleteFlightDetails(String flightNumber) throws FlightNotFoundException {
 		if(!adminInterface.findById(flightNumber).isPresent()) {
 			throw new FlightNotFoundException("Flight Details not found");
