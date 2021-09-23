@@ -138,8 +138,8 @@ public class FlightDetailServiceTest {
 	@Test
 	public void getAllFlightDetailsBySearchTest() throws BadRequestException, FlightAlreadyFoundException {
 		service.registerAirlineAndInventory(details);
-		assertEquals(1, service.getAllFlightDetailsBySearch("testAirline").size());
-		assertEquals(0, service.getAllFlightDetailsBySearch("testAirline2").size());
+		assertEquals(1, service.getAllFlightDetailsBySearch("place1", "place2").size());
+		assertEquals(0, service.getAllFlightDetailsBySearch("place1","testAirline2").size());
 	}
 	
 	@Test
@@ -155,6 +155,6 @@ public class FlightDetailServiceTest {
 	public void getFlightDetailsByFlightNumberTest() throws FlightNotFoundException, BadRequestException, FlightAlreadyFoundException {
 		FlightDetails response = service.registerAirlineAndInventory(details);
 		
-		assertEquals(adminInterface.findById(response.getFlightNumber()), service.getFlightDetailsByFlightNumber(response.getFlightNumber()));
+		assertEquals(response.getFlightNumber(), service.getFlightDetailsByFlightNumber(response.getFlightNumber()).getFlightNumber());
 	}
 }

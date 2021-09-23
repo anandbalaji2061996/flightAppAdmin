@@ -11,4 +11,6 @@ import com.flightapp.admin.DAO.FlightDetails;
 public interface AdminInterface extends JpaRepository<FlightDetails, String> {
 
 	List<FlightDetails> findByAirline(String airline);
+	
+	List<FlightDetails> findByFromPlaceAndToPlace(String fromplace, String toPlace);
 }

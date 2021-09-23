@@ -2,6 +2,8 @@ package com.flightapp.admin.Service;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.flightapp.admin.DAO.FlightDetails;
@@ -14,6 +16,9 @@ import com.flightapp.admin.Interface.AdminInterface;
 
 @Service
 public class FlightDetailService {
+	
+    private static final Logger logger = LogManager.getLogger(FlightDetailService.class);
+
  
 	private final AdminInterface adminInterface;
 	
@@ -24,15 +29,19 @@ public class FlightDetailService {
 	public String login(LoginCredentials credentials) throws AdminNotFoundException{
 		if(credentials.getUsername().equalsIgnoreCase("admin") && credentials.getPassword().equalsIgnoreCase("admin")) {
 			return "Success";
-		} else 
+		} else {
+			logger.warn("Invalid username/password");
 			throw new AdminNotFoundException("Invalid username / password credentials");
+		}
 	}
 	
 	public FlightDetails registerAirlineAndInventory(FlightDetails details) throws BadRequestException, FlightAlreadyFoundException{
 		if(details == null) {
+			logger.warn("Empty Body");
 			throw new BadRequestException("Empty Body!");
 		}
 		if(adminInterface.findById(details.getFlightNumber()).isPresent()) {
+			logger.warn("Flight details already exists!");
 			throw new FlightAlreadyFoundException("Flight details already exists!");
 		}
 		return adminInterface.save(details);
@@ -55,7 +64,7 @@ public class FlightDetailService {
 			
 			return adminInterface.save(flightDetails);
 		}
-		
+		logger.warn("Flight details not found!");
 		throw new FlightNotFoundException("Flight details not found!");
 	}
 	
@@ -63,8 +72,8 @@ public class FlightDetailService {
 		return adminInterface.findAll();
 	}
 	
-	public List<FlightDetails> getAllFlightDetailsBySearch(String airline) {
-		return adminInterface.findByAirline(airline);
+	public List<FlightDetails> getAllFlightDetailsBySearch(String fromPlace, String toPlace) {
+		return adminInterface.findByFromPlaceAndToPlace(fromPlace, toPlace);
 	}
 	
 	public FlightDetails getFlightDetailsByFlightNumber(String flightNumber) throws FlightNotFoundException {
@@ -72,12 +81,13 @@ public class FlightDetailService {
 		if(flightDetails != null) {
 			return flightDetails;
 		}
-		
+		logger.warn("Flight details not found!");
 		throw new FlightNotFoundException("Flight details not found!");
 	}
 	
 	public String deleteFlightDetails(String flightNumber) throws FlightNotFoundException {
 		if(!adminInterface.findById(flightNumber).isPresent()) {
+			logger.warn("Flight details not found!");
 			throw new FlightNotFoundException("Flight Details not found");
 		}
 		adminInterface.deleteById(flightNumber);

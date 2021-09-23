@@ -66,10 +66,10 @@ public class FlightDetailsController {
 		return new ResponseEntity<>(service.getAllFlightDetails(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/airline/{airline}")
-	public ResponseEntity<List<FlightDetails>> getAllFlightDetailsBySearch(@PathVariable("airline") String airline) {
-		logger.info("Search for "+ airline);
-		return new ResponseEntity<>(service.getAllFlightDetailsBySearch(airline), HttpStatus.OK);
+	@GetMapping("/airline/fromPlace/{fromPlace}/toPlace/{toPlace}")
+	public ResponseEntity<List<FlightDetails>> getAllFlightDetailsBySearch(@PathVariable("fromPlace") String fromPlace, @PathVariable("toPlace") String toPlace) {
+		logger.info("Search for "+ fromPlace + " & " + toPlace);
+		return new ResponseEntity<>(service.getAllFlightDetailsBySearch(fromPlace, toPlace), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/airline/delete/{flightNumber}")
