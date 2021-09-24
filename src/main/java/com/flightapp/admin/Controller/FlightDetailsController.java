@@ -72,9 +72,21 @@ public class FlightDetailsController {
 		return new ResponseEntity<>(service.getAllFlightDetailsBySearch(fromPlace, toPlace), HttpStatus.OK);
 	}
 	
+	@GetMapping("/airline/airlineName/{airline}/fromPlace/{fromPlace}/toPlace/{toPlace}")
+	public ResponseEntity<List<FlightDetails>> getAllFlightDetailsByAirline(@PathVariable("airline") String airline, @PathVariable("fromPlace") String fromPlace, @PathVariable("toPlace") String toPlace) {
+		logger.info("Search for "+ airline);
+		return new ResponseEntity<>(service.getAllFlightDetailsByAirline(airline, fromPlace, toPlace), HttpStatus.OK);
+	}
+	
 	@DeleteMapping("/airline/delete/{flightNumber}")
 	public ResponseEntity<String> deleteFlightDetails(@PathVariable("flightNumber") String flightNumber) throws FlightNotFoundException {
 		logger.info("Delete flight details " + flightNumber);
 		return new ResponseEntity<>(service.deleteFlightDetails(flightNumber), HttpStatus.ACCEPTED);
+	}
+	
+	@DeleteMapping("/airline/airlineDelete/{airline}")
+	public ResponseEntity<String> deleteFlightDetailsByAirline(@PathVariable("airline") String airline) throws FlightNotFoundException {
+		logger.info("Delete flight details " + airline);
+		return new ResponseEntity<>(service.deleteFlightDetailsAirline(airline), HttpStatus.ACCEPTED);
 	}
 }
