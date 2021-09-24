@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import com.flightapp.admin.DAO.FlightDetails;
@@ -15,9 +17,16 @@ import com.flightapp.admin.Exception.FlightNotFoundException;
 import com.flightapp.admin.Interface.AdminInterface;
 
 @Service
+@RefreshScope
 public class FlightDetailService {
 
 	private static final Logger logger = LogManager.getLogger(FlightDetailService.class);
+
+	@Value("${admin.username}")
+	private String username;
+
+	@Value("${admin.password}")
+	private String password;
 
 	private final AdminInterface adminInterface;
 
@@ -26,8 +35,8 @@ public class FlightDetailService {
 	}
 
 	public String login(LoginCredentials credentials) throws AdminNotFoundException {
-		if (credentials.getUsername().equalsIgnoreCase("admin")
-				&& credentials.getPassword().equalsIgnoreCase("admin")) {
+		if (credentials.getUsername().equalsIgnoreCase(username)
+				&& credentials.getPassword().equalsIgnoreCase(password)) {
 			return "Success";
 		} else {
 			logger.warn("Invalid username/password");
