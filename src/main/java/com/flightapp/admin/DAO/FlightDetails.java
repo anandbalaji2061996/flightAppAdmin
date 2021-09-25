@@ -21,6 +21,8 @@ public class FlightDetails {
 	private int ticketCost;
 	private int nosOfRows;
 	private String meals;
+	private String discountCode;
+	private int discount;
 	
 	
 	public String getFlightNumber() {
@@ -94,6 +96,18 @@ public class FlightDetails {
 	}
 	public void setMeals(String meals) {
 		this.meals = meals;
+	}
+	public String getDiscountCode() {
+		return discountCode;
+	}
+	public void setDiscountCode(String discountCode) {
+		this.discountCode = discountCode;
+	}
+	public int getDiscount() {
+		return discount;
+	}
+	public void setDiscount(int discount) {
+		this.discount = discount;
 	}
 	
 }

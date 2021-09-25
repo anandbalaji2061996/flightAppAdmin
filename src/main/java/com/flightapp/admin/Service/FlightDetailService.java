@@ -72,7 +72,8 @@ public class FlightDetailService {
 			flightDetails.setStartDateTime(details.getStartDateTime());
 			flightDetails.setTicketCost(details.getTicketCost());
 			flightDetails.setToPlace(details.getToPlace());
-
+			flightDetails.setDiscountCode(details.getDiscountCode());
+			flightDetails.setDiscount(details.getDiscount());
 			return adminInterface.save(flightDetails);
 		}
 		logger.warn("Flight details not found!");
