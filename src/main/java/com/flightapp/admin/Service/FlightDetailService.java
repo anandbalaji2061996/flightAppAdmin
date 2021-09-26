@@ -23,10 +23,10 @@ public class FlightDetailService {
 	private static final Logger logger = LogManager.getLogger(FlightDetailService.class);
 
 	@Value("${admin.username}")
-	private String username;
+	public String username;
 
 	@Value("${admin.password}")
-	private String password;
+	public String password;
 
 	private final AdminInterface adminInterface;
 

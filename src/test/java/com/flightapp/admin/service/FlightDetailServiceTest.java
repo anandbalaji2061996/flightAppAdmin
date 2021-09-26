@@ -38,6 +38,8 @@ public class FlightDetailServiceTest {
 	@BeforeEach
 	public void setup1() {
 		service = new FlightDetailService(adminInterface);
+		service.username = "admin";
+		service.password = "admin";
 
 		details = new FlightDetails();
 		details.setAirline("testAirline");
@@ -61,18 +63,18 @@ public class FlightDetailServiceTest {
 		adminInterface.deleteAll();
 	}
 
-//	@Test
-//	public void loginTest() throws AdminNotFoundException {
-//		LoginCredentials credentials = new LoginCredentials();
-//		credentials.setPassword("admin");
-//		credentials.setUsername("admin");
-//		assertEquals("Success", service.login(credentials));
-//
-//		credentials.setUsername("admin123");
-//		Throwable thrown = catchThrowable(() -> service.login(credentials));
-//
-//		assertThat(thrown).isInstanceOf(AdminNotFoundException.class);
-//	}
+	@Test
+	public void loginTest() throws AdminNotFoundException {
+		LoginCredentials credentials = new LoginCredentials();
+		credentials.setPassword("admin");
+		credentials.setUsername("admin");
+		assertEquals("Success", service.login(credentials));
+
+		credentials.setUsername("admin123");
+		Throwable thrown = catchThrowable(() -> service.login(credentials));
+
+		assertThat(thrown).isInstanceOf(AdminNotFoundException.class);
+	}
 
 	@Test
 	public void registerAirlineAndInventoryTest() throws BadRequestException, FlightAlreadyFoundException {

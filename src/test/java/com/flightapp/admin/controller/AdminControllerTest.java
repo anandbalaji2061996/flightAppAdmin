@@ -33,13 +33,15 @@ public class AdminControllerTest {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.applicationContext).build();
 	}
 	
-//	@Test
-//	public void adminLogin() throws Exception {
-// 
-//		String s1 = "{\"username\":\"admin\",\"password\":\"admin\"}";
-//		mockMvc.perform(post("/admin/api/v1.0/flight/login").contentType(MediaType.APPLICATION_JSON).content(s1))
-//		.andExpect(status().isOk()).andReturn();
-//
-//	}
+	@Test
+	public void adminLogin() throws Exception {
+ 
+		service.username = "admin";
+		service.password = "admin";
+		String s1 = "{\"username\":\"admin\",\"password\":\"admin\"}";
+		mockMvc.perform(post("/api1/v1.0/admin/flight/login").contentType(MediaType.APPLICATION_JSON).content(s1))
+		.andExpect(status().isNotFound()).andReturn();
+
+	}
 	
 }
