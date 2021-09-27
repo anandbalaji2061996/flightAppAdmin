@@ -22,6 +22,17 @@ public class GlobalExceptionHandler {
 		return error;
 	}
 	
+	@ExceptionHandler(SeatNotAvailableException.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public @ResponseBody ExceptionResponse handleSeatNotFound(final SeatNotAvailableException exception,
+			final HttpServletRequest request) {
+
+		ExceptionResponse error = new ExceptionResponse();
+		error.setMessage(exception.getMessage());
+
+		return error;
+	}
+	
 	@ExceptionHandler(BadRequestException.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	public @ResponseBody ExceptionResponse handleEmptyResource(final BadRequestException exception,

@@ -17,13 +17,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.flightapp.admin.DAO.FlightAvailability;
 import com.flightapp.admin.DAO.FlightDetails;
 import com.flightapp.admin.DAO.LoginCredentials;
 import com.flightapp.admin.Exception.AdminNotFoundException;
 import com.flightapp.admin.Exception.BadRequestException;
 import com.flightapp.admin.Exception.FlightAlreadyFoundException;
 import com.flightapp.admin.Exception.FlightNotFoundException;
+import com.flightapp.admin.Exception.SeatNotAvailableException;
 import com.flightapp.admin.Service.FlightDetailService;
+import com.flightapp.admin.Service.FlightSeatAvailability;
 
 @CrossOrigin("http://localhost:4200")
 @RestController
@@ -34,6 +37,9 @@ public class FlightDetailsController {
 
 	@Autowired
 	FlightDetailService service;
+	
+	@Autowired
+	FlightSeatAvailability availabilityService;
 
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody LoginCredentials credentials) throws AdminNotFoundException{
@@ -89,4 +95,17 @@ public class FlightDetailsController {
 		logger.info("Delete flight details " + airline);
 		return new ResponseEntity<>(service.deleteFlightDetailsAirline(airline), HttpStatus.ACCEPTED);
 	}
+	
+	@PostMapping("/airline/availability")
+	public ResponseEntity<FlightAvailability> saveAvailability(@RequestBody FlightAvailability availability) throws SeatNotAvailableException {
+		logger.info("Update Availability");
+		return new ResponseEntity<>(availabilityService.saveRecord(availability),HttpStatus.OK);				
+	}
+	
+	@PostMapping("/airline/seats/availability")
+	public ResponseEntity<FlightAvailability> getAvailability(@RequestBody FlightAvailability availability) {
+		logger.info("Get Availability");
+		return new ResponseEntity<>(availabilityService.getRecord(availability),HttpStatus.OK);				
+	}
+	
 }
