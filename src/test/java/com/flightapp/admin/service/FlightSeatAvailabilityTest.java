@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.flightapp.admin.DAO.FlightAvailability;
+import com.flightapp.admin.Exception.BadRequestException;
 import com.flightapp.admin.Exception.SeatNotAvailableException;
 import com.flightapp.admin.Interface.FlightAvailabilityRepository;
 import com.flightapp.admin.Service.FlightSeatAvailability;
@@ -87,5 +88,22 @@ public class FlightSeatAvailabilityTest {
 		assertEquals(1,a.getNosOfNonBusinessClassSeats());
 		assertEquals(0,a.getNosOfBookedBusinessClassSeats());
 		assertEquals(1,a.getNosOfBookedNonBusinessClassSeats());
+	}
+	
+	@Test
+	public void updateSeatAfterCancellationTest() throws BadRequestException, SeatNotAvailableException {
+		Throwable thrown = catchThrowable(() -> availability.updateSeatRecordAfterCancellation(details));
+		assertThat(thrown).isInstanceOf(BadRequestException.class);
+		details.setNosOfBookedNonBusinessClassSeats(1);
+		assertNotNull(availability.saveRecord(details));
+		FlightAvailability a = availability.getRecord(details);
+		assertNotNull(a);
+		assertEquals(1,a.getNosOfBookedNonBusinessClassSeats());
+		
+		details.setNosOfBookedNonBusinessClassSeats(1);
+		
+		FlightAvailability aa = availability.updateSeatRecordAfterCancellation(details);
+		assertEquals(0,aa.getNosOfBookedNonBusinessClassSeats());
+		
 	}
 }

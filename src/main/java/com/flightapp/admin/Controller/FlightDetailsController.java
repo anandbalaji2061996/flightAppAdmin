@@ -108,4 +108,10 @@ public class FlightDetailsController {
 		return new ResponseEntity<>(availabilityService.getRecord(availability),HttpStatus.OK);				
 	}
 	
+	@PostMapping("/airline/seats/availability/aftercancel")
+	public ResponseEntity<FlightAvailability> updateSeatsAfterCancellation(@RequestBody FlightAvailability availability) throws BadRequestException {
+		logger.info("Cancel seats Availability");
+		return new ResponseEntity<>(availabilityService.updateSeatRecordAfterCancellation(availability),HttpStatus.OK);				
+	}
+	
 }

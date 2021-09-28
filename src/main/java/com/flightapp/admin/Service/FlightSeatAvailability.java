@@ -3,6 +3,7 @@ package com.flightapp.admin.Service;
 import org.springframework.stereotype.Service;
 
 import com.flightapp.admin.DAO.FlightAvailability;
+import com.flightapp.admin.Exception.BadRequestException;
 import com.flightapp.admin.Exception.SeatNotAvailableException;
 import com.flightapp.admin.Interface.FlightAvailabilityRepository;
 
@@ -43,6 +44,30 @@ public class FlightSeatAvailability {
 
 			return availabilityRepository.save(record);
 		}
+	}
+
+	public FlightAvailability updateSeatRecordAfterCancellation(FlightAvailability availability)
+			throws BadRequestException {
+		FlightAvailability record = availabilityRepository.findByFlightNumberAndFromPlaceAndToPlaceAndJourneyDate(
+				availability.getFlightNumber(), availability.getFromPlace(), availability.getToPlace(),
+				availability.getJourneyDate());
+
+		if (record == null) {
+			throw new BadRequestException("No records found");
+		} else {
+			if (record.getNosOfBookedBusinessClassSeats() >= availability.getNosOfBookedBusinessClassSeats() && record
+					.getNosOfBookedNonBusinessClassSeats() >= availability.getNosOfBookedNonBusinessClassSeats()) {
+				int addnumberOfBusinessClass = record.getNosOfBookedBusinessClassSeats()
+						- availability.getNosOfBookedBusinessClassSeats();
+				int addnumberOfNonBusinessClass = record.getNosOfBookedNonBusinessClassSeats()
+						- availability.getNosOfBookedNonBusinessClassSeats();
+				record.setNosOfBookedBusinessClassSeats(addnumberOfBusinessClass);
+				record.setNosOfBookedNonBusinessClassSeats(addnumberOfNonBusinessClass);
+				return availabilityRepository.save(record);
+			} else
+				throw new BadRequestException("Invalid data!");
+		}
+
 	}
 
 	public FlightAvailability getRecord(FlightAvailability availability) {
