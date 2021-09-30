@@ -1,5 +1,7 @@
 package com.flightapp.admin.Service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.flightapp.admin.DAO.FlightAvailability;
@@ -9,6 +11,8 @@ import com.flightapp.admin.Interface.FlightAvailabilityRepository;
 
 @Service
 public class FlightSeatAvailability {
+	
+	private static final Logger logger = LoggerFactory.getLogger(FlightSeatAvailability.class);
 
 	private final FlightAvailabilityRepository availabilityRepository;
 
@@ -21,6 +25,7 @@ public class FlightSeatAvailability {
 				availability.getFlightNumber(), availability.getFromPlace(), availability.getToPlace(),
 				availability.getJourneyDate());
 		if (record == null) {
+			logger.info("New Record in seat availability");
 			if (availability.getNosOfBusinessClassSeats() >= availability.getNosOfBookedBusinessClassSeats()
 					&& availability.getNosOfNonBusinessClassSeats() >= availability
 							.getNosOfBookedNonBusinessClassSeats())
@@ -28,7 +33,7 @@ public class FlightSeatAvailability {
 			else
 				throw new SeatNotAvailableException("Only less seats are available to book!");
 		} else {
-
+			logger.info("Updating record in seat availability");
 			int numberOfBusinessClass = record.getNosOfBookedBusinessClassSeats()
 					+ availability.getNosOfBookedBusinessClassSeats();
 			int numberOfNonBusinessClass = record.getNosOfBookedNonBusinessClassSeats()
@@ -53,8 +58,10 @@ public class FlightSeatAvailability {
 				availability.getJourneyDate());
 
 		if (record == null) {
+			logger.info("No records found");
 			throw new BadRequestException("No records found");
 		} else {
+			logger.info("Updation of seat availability after booking cancel");
 			if (record.getNosOfBookedBusinessClassSeats() >= availability.getNosOfBookedBusinessClassSeats() && record
 					.getNosOfBookedNonBusinessClassSeats() >= availability.getNosOfBookedNonBusinessClassSeats()) {
 				int addnumberOfBusinessClass = record.getNosOfBookedBusinessClassSeats()
@@ -71,6 +78,7 @@ public class FlightSeatAvailability {
 	}
 
 	public FlightAvailability getRecord(FlightAvailability availability) {
+		logger.info("Get Record for seat availability");
 		return availabilityRepository.findByFlightNumberAndFromPlaceAndToPlaceAndJourneyDate(
 				availability.getFlightNumber(), availability.getFromPlace(), availability.getToPlace(),
 				availability.getJourneyDate());

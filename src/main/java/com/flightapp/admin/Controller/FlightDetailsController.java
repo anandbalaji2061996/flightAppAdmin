@@ -2,8 +2,8 @@ package com.flightapp.admin.Controller;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,7 @@ import com.flightapp.admin.Service.FlightSeatAvailability;
 @RequestMapping("/api2/v1.0/admin/flight")
 public class FlightDetailsController {
 	
-    private static final Logger logger = LogManager.getLogger(FlightDetailsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(FlightDetailsController.class);
 
 	@Autowired
 	FlightDetailService service;

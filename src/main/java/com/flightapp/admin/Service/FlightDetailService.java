@@ -2,8 +2,8 @@ package com.flightapp.admin.Service;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import com.flightapp.admin.Interface.AdminInterface;
 @RefreshScope
 public class FlightDetailService {
 
-	private static final Logger logger = LogManager.getLogger(FlightDetailService.class);
+	private static final Logger logger = LoggerFactory.getLogger(FlightDetailService.class);
 
 	@Value("${admin.username}")
 	public String username;
