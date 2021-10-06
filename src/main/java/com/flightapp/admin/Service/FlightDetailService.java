@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import com.flightapp.admin.DAO.FlightDetails;
@@ -17,16 +15,15 @@ import com.flightapp.admin.Exception.FlightNotFoundException;
 import com.flightapp.admin.Interface.AdminInterface;
 
 @Service
-@RefreshScope
 public class FlightDetailService {
 
 	private static final Logger logger = LoggerFactory.getLogger(FlightDetailService.class);
 
-	@Value("${admin.username}")
-	public String username;
+//	@Value("${admin.username}")
+	public String username = "admin";
 
-	@Value("${admin.password}")
-	public String password;
+//	@Value("${admin.password}")
+	public String password = "admin";
 
 	private final AdminInterface adminInterface;
 
@@ -117,7 +114,7 @@ public class FlightDetailService {
 		return "Success";
 	}
 
-	public String deleteFlightDetailsAirline(String airline) throws FlightNotFoundException {
+	public String deleteFlightDetailsAirline(String airline) {
 
 		adminInterface.findByAirline(airline).forEach(details -> {
 			adminInterface.deleteById(details.getFlightNumber());
