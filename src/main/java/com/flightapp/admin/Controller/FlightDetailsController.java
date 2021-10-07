@@ -2,6 +2,8 @@ package com.flightapp.admin.Controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,26 +44,26 @@ public class FlightDetailsController {
 	FlightSeatAvailability availabilityService;
 
 	@PostMapping(path = "/login", produces = {"application/text"})
-	public ResponseEntity<String> login(@RequestBody LoginCredentials credentials) throws AdminNotFoundException{
+	public ResponseEntity<String> login(@Valid @RequestBody LoginCredentials credentials) throws AdminNotFoundException{
 		logger.info("Admin login check!");
 		return new ResponseEntity<>(service.login(credentials),HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/airline/register", produces = {"application/json"})
-	public ResponseEntity<FlightDetails> registerAirlineAndInventory(@RequestBody FlightDetails details) throws BadRequestException, FlightAlreadyFoundException{
+	public ResponseEntity<FlightDetails> registerAirlineAndInventory(@Valid @RequestBody FlightDetails details) throws BadRequestException, FlightAlreadyFoundException{
 		logger.info("Register new Airline!");
 		return new ResponseEntity<>(service.registerAirlineAndInventory(details), HttpStatus.CREATED);
 	}
 
 	@PutMapping(path = "/airline/inventory/add/{flightNumber}", produces = {"application/json"})
-	public ResponseEntity<FlightDetails> updateFlightInventory(@PathVariable("flightNumber") String flightNumber,
+	public ResponseEntity<FlightDetails> updateFlightInventory(@Valid @PathVariable("flightNumber") String flightNumber,
 			@RequestBody FlightDetails details) throws FlightNotFoundException {
 		logger.info("Update inventory!");
 		return new ResponseEntity<>(service.updateFlightInventory(flightNumber, details), HttpStatus.ACCEPTED);
 	}
 	
 	@GetMapping(path = "/airline/flightNumber/{flightNumber}", produces = {"application/json"})
-	public ResponseEntity<FlightDetails> getFlightDetailsByFlightNumber(@PathVariable("flightNumber") String flightNumber) throws FlightNotFoundException {
+	public ResponseEntity<FlightDetails> getFlightDetailsByFlightNumber(@Valid @PathVariable("flightNumber") String flightNumber) throws FlightNotFoundException {
 		logger.info("Get flight details " + flightNumber);
 		return new ResponseEntity<>(service.getFlightDetailsByFlightNumber(flightNumber), HttpStatus.OK);
 	}
@@ -73,43 +75,43 @@ public class FlightDetailsController {
 	}
 	
 	@GetMapping(path = "/airline/fromPlace/{fromPlace}/toPlace/{toPlace}", produces = {"application/json"})
-	public ResponseEntity<List<FlightDetails>> getAllFlightDetailsBySearch(@PathVariable("fromPlace") String fromPlace, @PathVariable("toPlace") String toPlace) {
+	public ResponseEntity<List<FlightDetails>> getAllFlightDetailsBySearch(@Valid @PathVariable("fromPlace") String fromPlace, @PathVariable("toPlace") String toPlace) {
 		logger.info("Search for "+ fromPlace + " & " + toPlace);
 		return new ResponseEntity<>(service.getAllFlightDetailsBySearch(fromPlace, toPlace), HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/airline/airlineName/{airline}/fromPlace/{fromPlace}/toPlace/{toPlace}", produces = {"application/json"})
-	public ResponseEntity<List<FlightDetails>> getAllFlightDetailsByAirline(@PathVariable("airline") String airline, @PathVariable("fromPlace") String fromPlace, @PathVariable("toPlace") String toPlace) {
+	public ResponseEntity<List<FlightDetails>> getAllFlightDetailsByAirline(@Valid @PathVariable("airline") String airline, @PathVariable("fromPlace") String fromPlace, @PathVariable("toPlace") String toPlace) {
 		logger.info("Search for "+ airline);
 		return new ResponseEntity<>(service.getAllFlightDetailsByAirline(airline, fromPlace, toPlace), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(path = "/airline/delete/{flightNumber}", produces = {"application/text"})
-	public ResponseEntity<String> deleteFlightDetails(@PathVariable("flightNumber") String flightNumber) throws FlightNotFoundException {
+	public ResponseEntity<String> deleteFlightDetails(@Valid @PathVariable("flightNumber") String flightNumber) throws FlightNotFoundException {
 		logger.info("Delete flight details " + flightNumber);
 		return new ResponseEntity<>(service.deleteFlightDetails(flightNumber), HttpStatus.ACCEPTED);
 	}
 	
 	@DeleteMapping(path = "/airline/airlineDelete/{airline}", produces = {"application/text"})
-	public ResponseEntity<String> deleteFlightDetailsByAirline(@PathVariable("airline") String airline) {
+	public ResponseEntity<String> deleteFlightDetailsByAirline(@Valid @PathVariable("airline") String airline) {
 		logger.info("Delete flight details " + airline);
 		return new ResponseEntity<>(service.deleteFlightDetailsAirline(airline), HttpStatus.ACCEPTED);
 	}
 	
 	@PostMapping(path = "/airline/availability", produces = {"application/json"})
-	public ResponseEntity<FlightAvailability> saveAvailability(@RequestBody FlightAvailability availability) throws SeatNotAvailableException {
+	public ResponseEntity<FlightAvailability> saveAvailability(@Valid @RequestBody FlightAvailability availability) throws SeatNotAvailableException {
 		logger.info("Update Availability");
 		return new ResponseEntity<>(availabilityService.saveRecord(availability),HttpStatus.OK);				
 	}
 	
 	@PostMapping(path = "/airline/seats/availability", produces = {"application/json"})
-	public ResponseEntity<FlightAvailability> getAvailability(@RequestBody FlightAvailability availability) {
+	public ResponseEntity<FlightAvailability> getAvailability(@Valid @RequestBody FlightAvailability availability) {
 		logger.info("Get Availability");
 		return new ResponseEntity<>(availabilityService.getRecord(availability),HttpStatus.OK);				
 	}
 	
 	@PostMapping(path = "/airline/seats/availability/aftercancel", produces = {"application/json"})
-	public ResponseEntity<FlightAvailability> updateSeatsAfterCancellation(@RequestBody FlightAvailability availability) throws BadRequestException {
+	public ResponseEntity<FlightAvailability> updateSeatsAfterCancellation(@Valid @RequestBody FlightAvailability availability) throws BadRequestException {
 		logger.info("Cancel seats Availability");
 		return new ResponseEntity<>(availabilityService.updateSeatRecordAfterCancellation(availability),HttpStatus.OK);				
 	}

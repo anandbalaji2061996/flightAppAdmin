@@ -5,34 +5,28 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.springframework.lang.NonNull;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="flightScheduler")
 public class FlightAvailability {
 	
 	@Id
-	@NonNull
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@NonNull
+	@NotEmpty(message = "Flight number should not be empty")
 	private String flightNumber;
-	@NonNull
+	@NotEmpty(message = "Airline Name should not be empty")
 	private String airline;
-	@NonNull
+	@NotEmpty(message = "From Place should not be empty")
 	private String fromPlace;
-	@NonNull
+	@NotEmpty(message = "To Place should not be empty")
 	private String toPlace;
-	@NonNull
+	@NotEmpty(message = "Journey date should not be empty")
 	private String journeyDate;
-	@NonNull
 	private int nosOfBusinessClassSeats;
-	@NonNull
 	private int nosOfNonBusinessClassSeats;
-	@NonNull
 	private int nosOfBookedBusinessClassSeats;
-	@NonNull
 	private int nosOfBookedNonBusinessClassSeats;
 	
 	public long getId() {

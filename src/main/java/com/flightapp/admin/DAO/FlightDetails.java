@@ -3,41 +3,34 @@ package com.flightapp.admin.DAO;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.springframework.lang.NonNull;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "flightDetails")
 public class FlightDetails {
 
 	@Id
-	@NonNull
 	private String flightNumber;
-	@NonNull
+	@NotEmpty(message = "Airline name should not be empty")
 	private String airline;
-	@NonNull
+	@NotEmpty(message = "From place should not be empty")
 	private String fromPlace;
-	@NonNull
+	@NotEmpty(message = "To place should not be empty")
 	private String toPlace;
-	@NonNull
+	@NotEmpty(message = "Start time should not be empty")
 	private String startDateTime;
-	@NonNull
+	@NotEmpty(message = "End time should not be empty")
 	private String endDateTime;
-	@NonNull
+	@NotEmpty(message = "Scheduled days should not be empty")
 	private String scheduledDays;
-	@NonNull
 	private int nosOfBusinessClassSeats;
-	@NonNull
 	private int nosOfNonBusinessClassSeats;
-	@NonNull
 	private int ticketCost;
-	@NonNull
 	private int nosOfRows;
-	@NonNull
+	@NotEmpty(message = "Meals should not be empty")
 	private String meals;
-	@NonNull
+	@NotEmpty(message = "Discount Code should not be empty")
 	private String discountCode;
-	@NonNull
 	private int discount;
 	
 	

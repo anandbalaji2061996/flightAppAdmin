@@ -1,12 +1,12 @@
 package com.flightapp.admin.DAO;
 
-import org.springframework.lang.NonNull;
+import javax.validation.constraints.NotEmpty;
 
 public class LoginCredentials {
 	
-	@NonNull
+	@NotEmpty(message = "Username should not be empty")
 	private String username;
-	@NonNull
+	@NotEmpty(message = "Password should not be empty")
 	private String password;
 	
 	public String getUsername() {
