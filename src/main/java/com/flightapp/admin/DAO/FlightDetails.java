@@ -4,24 +4,40 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.lang.NonNull;
+
 @Entity
 @Table(name = "flightDetails")
 public class FlightDetails {
 
 	@Id
+	@NonNull
 	private String flightNumber;
+	@NonNull
 	private String airline;
+	@NonNull
 	private String fromPlace;
+	@NonNull
 	private String toPlace;
+	@NonNull
 	private String startDateTime;
+	@NonNull
 	private String endDateTime;
+	@NonNull
 	private String scheduledDays;
+	@NonNull
 	private int nosOfBusinessClassSeats;
+	@NonNull
 	private int nosOfNonBusinessClassSeats;
+	@NonNull
 	private int ticketCost;
+	@NonNull
 	private int nosOfRows;
+	@NonNull
 	private String meals;
+	@NonNull
 	private String discountCode;
+	@NonNull
 	private int discount;
 	
 	

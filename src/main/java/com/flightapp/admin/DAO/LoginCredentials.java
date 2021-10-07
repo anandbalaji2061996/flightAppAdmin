@@ -1,9 +1,14 @@
 package com.flightapp.admin.DAO;
 
-public class LoginCredentials {
+import org.springframework.lang.NonNull;
 
+public class LoginCredentials {
+	
+	@NonNull
 	private String username;
+	@NonNull
 	private String password;
+	
 	public String getUsername() {
 		return username;
 	}

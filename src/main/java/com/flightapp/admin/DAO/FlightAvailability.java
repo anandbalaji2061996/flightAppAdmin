@@ -6,21 +6,33 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.lang.NonNull;
+
 @Entity
 @Table(name="flightScheduler")
 public class FlightAvailability {
 	
 	@Id
+	@NonNull
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	@NonNull
 	private String flightNumber;
+	@NonNull
 	private String airline;
+	@NonNull
 	private String fromPlace;
+	@NonNull
 	private String toPlace;
+	@NonNull
 	private String journeyDate;
+	@NonNull
 	private int nosOfBusinessClassSeats;
+	@NonNull
 	private int nosOfNonBusinessClassSeats;
+	@NonNull
 	private int nosOfBookedBusinessClassSeats;
+	@NonNull
 	private int nosOfBookedNonBusinessClassSeats;
 	
 	public long getId() {
