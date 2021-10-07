@@ -6,13 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.flightapp.admin.DAO.Airline;
 import com.flightapp.admin.DAO.FlightDetails;
 import com.flightapp.admin.DAO.LoginCredentials;
 import com.flightapp.admin.Exception.AdminNotFoundException;
+import com.flightapp.admin.Exception.AirlineNotFoundException;
 import com.flightapp.admin.Exception.BadRequestException;
 import com.flightapp.admin.Exception.FlightAlreadyFoundException;
 import com.flightapp.admin.Exception.FlightNotFoundException;
 import com.flightapp.admin.Interface.AdminInterface;
+import com.flightapp.admin.Interface.AirlineRepository;
 
 @Service
 public class FlightDetailService {
@@ -26,9 +29,12 @@ public class FlightDetailService {
 	public String password = "admin";
 
 	private final AdminInterface adminInterface;
+	
+	private final AirlineRepository airlineRepository;
 
-	public FlightDetailService(AdminInterface adminInterface) {
+	public FlightDetailService(AdminInterface adminInterface,AirlineRepository airlineRepository) {
 		this.adminInterface = adminInterface;
+		this.airlineRepository = airlineRepository;
 	}
 
 	public String login(LoginCredentials credentials) throws AdminNotFoundException {
@@ -41,8 +47,8 @@ public class FlightDetailService {
 		}
 	}
 
-	public FlightDetails registerAirlineAndInventory(FlightDetails details)
-			throws BadRequestException, FlightAlreadyFoundException {
+	public String registerAirlineAndInventory(FlightDetails details)
+			throws BadRequestException, FlightAlreadyFoundException, AirlineNotFoundException {
 		if (details == null) {
 			logger.warn("Empty Body");
 			throw new BadRequestException("Empty Body!");
@@ -51,14 +57,23 @@ public class FlightDetailService {
 			logger.warn("Flight details already exists!");
 			throw new FlightAlreadyFoundException("Flight details already exists!");
 		}
-		return adminInterface.save(details);
+		Airline airline = airlineRepository.findById(details.getAirline()).orElse(null);
+		if(airline != null) {
+			List<FlightDetails> flightList = airline.getFlightDetails();
+			flightList.add(details);
+			airline.setFlightDetails(flightList);
+			airlineRepository.save(airline);
+			return "Flight Registered successfully";
+		} else {
+			throw new AirlineNotFoundException("Airline not registered");
+		}
+		
 	}
 
 	public FlightDetails updateFlightInventory(String flightNumber, FlightDetails details)
 			throws FlightNotFoundException {
 		FlightDetails flightDetails = adminInterface.findById(flightNumber).orElse(null);
 		if (flightDetails != null) {
-			flightDetails.setAirline(details.getAirline());
 			flightDetails.setEndDateTime(details.getEndDateTime());
 			flightDetails.setFromPlace(details.getFromPlace());
 			flightDetails.setMeals(details.getMeals());

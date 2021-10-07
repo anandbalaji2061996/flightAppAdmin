@@ -55,6 +55,17 @@ public class GlobalExceptionHandler {
 		return error;
 	}
 	
+	@ExceptionHandler(AirlineNotFoundException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public @ResponseBody ExceptionResponse handleAirlineResourceNotFound(final AirlineNotFoundException exception,
+			final HttpServletRequest request) {
+
+		ExceptionResponse error = new ExceptionResponse();
+		error.setMessage(exception.getMessage());
+
+		return error;
+	}
+	
 	@ExceptionHandler(FlightAlreadyFoundException.class)
 	@ResponseStatus(value = HttpStatus.CONFLICT)
 	public @ResponseBody ExceptionResponse handleTicketResourceNotFound(final FlightAlreadyFoundException exception,

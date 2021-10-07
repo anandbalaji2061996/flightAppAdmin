@@ -23,6 +23,7 @@ import com.flightapp.admin.DAO.FlightAvailability;
 import com.flightapp.admin.DAO.FlightDetails;
 import com.flightapp.admin.DAO.LoginCredentials;
 import com.flightapp.admin.Exception.AdminNotFoundException;
+import com.flightapp.admin.Exception.AirlineNotFoundException;
 import com.flightapp.admin.Exception.BadRequestException;
 import com.flightapp.admin.Exception.FlightAlreadyFoundException;
 import com.flightapp.admin.Exception.FlightNotFoundException;
@@ -49,8 +50,8 @@ public class FlightDetailsController {
 		return new ResponseEntity<>(service.login(credentials),HttpStatus.OK);
 	}
 
-	@PostMapping(path = "/airline/register", produces = {"application/json"})
-	public ResponseEntity<FlightDetails> registerAirlineAndInventory(@Valid @RequestBody FlightDetails details) throws BadRequestException, FlightAlreadyFoundException{
+	@PostMapping(path = "/airline/register", produces = {"application/text"})
+	public ResponseEntity<String> registerAirlineAndInventory(@Valid @RequestBody FlightDetails details) throws BadRequestException, FlightAlreadyFoundException, AirlineNotFoundException{
 		logger.info("Register new Airline!");
 		return new ResponseEntity<>(service.registerAirlineAndInventory(details), HttpStatus.CREATED);
 	}
