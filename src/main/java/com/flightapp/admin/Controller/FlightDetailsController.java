@@ -31,7 +31,7 @@ import com.flightapp.admin.Exception.SeatNotAvailableException;
 import com.flightapp.admin.Service.FlightDetailService;
 import com.flightapp.admin.Service.FlightSeatAvailability;
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api2/v1.0/admin/flight")
 public class FlightDetailsController {
