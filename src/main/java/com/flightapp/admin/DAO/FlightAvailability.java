@@ -16,7 +16,6 @@ public class FlightAvailability {
 	private long id;
 	@NotEmpty(message = "Flight number should not be empty")
 	private String flightNumber;
-	@NotEmpty(message = "Airline Name should not be empty")
 	private String airline;
 	@NotEmpty(message = "From Place should not be empty")
 	private String fromPlace;

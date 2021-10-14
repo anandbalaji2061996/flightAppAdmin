@@ -18,6 +18,7 @@ import com.flightapp.admin.Interface.AdminInterface;
 import com.flightapp.admin.Interface.AirlineRepository;
 
 @Service
+//@RefreshScope
 public class FlightDetailService {
 
 	private static final Logger logger = LoggerFactory.getLogger(FlightDetailService.class);
